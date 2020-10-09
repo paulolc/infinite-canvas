@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<script type="text/javascript" src="infinite-canvas.js"></script>
+		<style type="text/css">
+			body{
+				margin: 0px;
+				padding: 0px;
+			}
+			canvas{
+				width: 250px;
+				height: 250px;
+			}
+			.canvas-row{
+
+			}
+			.canvas-container{
+				display: inline-block;
+				vertical-align: top;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			(function(){
+				onmessage = function(e){
+					var htmlCanvasElement = document.getElementById("html-canvas");
+					var htmlCanvasContext = htmlCanvasElement.getContext("2d");
+
+					var infiniteCanvasElement = document.getElementById("infinite-canvas");
+					var infiniteCanvas = new InfiniteCanvas(infiniteCanvasElement);
+					var infiniteCanvasContext = infiniteCanvas.getContext("2d");
+
+					var htmlCanvasDrawFn = function(ctx){
+						ctx.fillStyle = "#f00";
+						ctx.fillRect(10, 10, 40, 40);
+					}
+
+					var infiniteCanvasDrawFn = function(ctx){
+						ctx.fillStyle = "#f00";
+						ctx.fillRect(10, 10, 40, 40);
+					}
+
+					htmlCanvasDrawFn(htmlCanvasContext);
+					infiniteCanvasDrawFn(infiniteCanvasContext);
+				}
+			})()
+		</script>
+		<div class="canvas-row">
+			<div class="canvas-container">
+				<canvas width="250" height="250" id="html-canvas"></canvas>
+			</div>
+			<div class="canvas-container">
+				<canvas width="250" height="250" id="infinite-canvas"></canvas>
+			</div>
+		</div>
+	</body>
+</html>

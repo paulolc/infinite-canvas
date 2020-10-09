@@ -24,28 +24,8 @@
 		</div>
 	</template>
 	<template id="exampleTemplate">
-		<div class="example" v-bind:class="{danger: !imagesAreEqual && !ignoredMessage, warning: !!ignoredMessage}">
-			<div class="example-title" v-bind:id="example.index">{{example.index + 1}}. {{example.title}}</div>
-			<div class="example-ignored-message" v-if="!!ignoredMessage">{{ignoredMessage}}</div>
-			<div>
-				<div class="column">
-					<canvas width="400" height="400" ref="canvas"></canvas>
-				</div>
-				<div class="column">
-					<canvas width="400" height="400" ref="infiniteCanvas"></canvas>
-				</div>
-				<div class="column">
-					<div v-if="example.finiteCode && !showFiniteCode" class="cursor-pointer code-toggle" v-on:click="toggleCode()">show regular canvas code</div>
-					<div v-if="example.finiteCode && showFiniteCode" class="cursor-pointer code-toggle" v-on:click="toggleCode()">show infinite canvas code</div>
-					<div ref="code" class="code"></div>
-					<input type="checkbox" v-model="rotationEnabled"/>
-					<label>rotation enabled</label>
-					<input type="checkbox" v-model="greedyGestureHandling"/>
-					<label>greedy gesture handling</label> 
-				</div>
-				<span v-on:click="onViewDiff" class="cursor-pointer" v-if="difference">view diff</span>
-			</div>
-		</div>
+		<div ref="container"></div>
+<!--		<iframe src="exampleRunner.html" ref="iframe" class="example-iframe" width="600" height="250"></iframe>-->
 		
 	</template>
 	<div id="main">
@@ -1329,112 +1309,21 @@
 					'example':{
 						template: document.getElementById("exampleTemplate").innerHTML,
 						props:{
-							example: Object,
-							dark: Boolean
+							example: Object
 						},
-						data:function(){
-							return {
-								rotationEnabled: false,
-								greedyGestureHandling: false,
-								infiniteCanvas: undefined,
-								editor: undefined,
-								imagesAreEqual: false,
-								ignoredMessage: undefined,
-								difference: undefined,
-								showFiniteCode: false,
-								code: undefined,
-								finiteCode: undefined
-							};
-						},
-						methods: {
-							toggleCode(){
-								if(this.showFiniteCode){
-									this.editor.setValue(this.code);
-									this.editor.clearSelection();
-									this.showFiniteCode = false;
-								}else{
-									this.editor.setValue(this.finiteCode);
-									this.editor.clearSelection();
-									this.showFiniteCode = true;
-								}
-							},
-							onViewDiff: function(){
-								this.$emit("viewdiff", this.difference);
-							},
-							getImageDifference(canvas, infCanvas){
-								try{
-									var regularCanvasData = canvas.getContext("2d").getImageData(0, 0, canvasWidth, canvasHeight);
-									var infiniteCanvasData = infCanvas.getContext("2d").getImageData(0, 0, canvasWidth, canvasHeight);
-									return compareImages(regularCanvasData, infiniteCanvasData);
-								}catch(e){}
-							},
-							handleImagesUnequal(){
-								if(this.example.ignored){
-									this.ignoredMessage = this.example.ignored;
-									this.$emit("ignored", {title: this.example.title, index: this.example.index})
-								}else{
-									this.$emit("imagesunequal", {title: this.example.title, index: this.example.index});
-								}
-							}
-						},
-						watch:{
-							rotationEnabled:function(v){
-								this.infiniteCanvas.rotationEnabled = v;
-							},
-							greedyGestureHandling: function(v){
-								this.infiniteCanvas.greedyGestureHandling = v;
-							},
-							dark:function(v){
-								if(v){
-									this.editor.setTheme("ace/theme/monokai");
-								}else{
-									this.editor.setTheme("");
-								}
-							}
-						},
-						mounted:function(){
-							var canvas = this.$refs.canvas;
-							var regularContext = canvas.getContext("2d");
-							var infCanvas = this.$refs.infiniteCanvas;
-							this.infiniteCanvas = new InfiniteCanvas(infCanvas);
-							this.rotationEnabled = this.infiniteCanvas.rotationEnabled;
-							this.greedyGestureHandling = this.infiniteCanvas.greedyGestureHandling;
-							var infiniteContext = this.infiniteCanvas.getContext();
-							this.code = getLinesFromFunction(this.example.code).join("\r\n");
-							if(this.example.finiteCode){
-								this.finiteCode = getLinesFromFunction(this.example.finiteCode).join("\r\n");
-							}
-							this.editor = ace.edit(this.$refs.code);
-							this.editor.session.setMode("ace/mode/javascript");
-							this.editor.setValue(this.code);
-							this.editor.clearSelection();
-							(this.example.finiteCode || this.example.code)(regularContext);
-							try{
-								this.example.code(infiniteContext);
-							}catch(e){
-								console.error("error for example '"+this.example.title+"'");
-								throw e;
-							}
+						mounted: function(){
 
-							this.infiniteCanvas.addEventListener("draw", () => {
-								try{
-									var dataUrlRegular = canvas.toDataURL();
-									var dataUrlInfinite = infCanvas.toDataURL();
-									if(dataUrlRegular === dataUrlInfinite){
-										this.imagesAreEqual = true;
-									}else{
-										this.difference = this.getImageDifference(canvas, infCanvas);
-										if(this.difference && this.example.maxDifference && this.difference.differenceMeasure <= this.example.maxDifference){
-											this.imagesAreEqual = true;
-										}
-									}
-								}catch(e){
-									this.imagesAreEqual = false;
-								}
-								if(!this.imagesAreEqual){
-									this.handleImagesUnequal(canvas, infCanvas);
-								}
-							}, {once: true});
+							var iframe = document.createElement('iframe');
+							this.$refs.container.appendChild(iframe);
+
+							iframe.setAttribute('width', 600);
+							iframe.setAttribute('height', 250);
+							iframe.setAttribute('class', 'example-iframe')
+							iframe.setAttribute('src', 'exampleRunner.html');
+							iframe.addEventListener('load', () => {
+								console.log(`iframe loaded!`)
+								iframe.contentWindow.postMessage({code: this.example.code.toString(), finiteCode: this.example.finiteCode ? this.example.finiteCode.toString() : null}, "*")
+							})
 
 						}
 					},

@@ -3,114 +3,42 @@
 	<meta 
 	name='viewport' 
 	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
-	<script type="text/javascript" src="infinite-canvas.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue?a"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ace.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-	<template id="imageLinkTemplate">
-		<li><a v-bind:href="'#' + titleandindex.index">{{titleandindex.title}}</a></li>
-	</template>
-	<template id="diffViewerTemplate">
-		<div class="diff-viewer" v-bind:class="{visible:visible}">
-			<div class="header">
-				<span class="close" v-on:click="$emit('close')">x</span>
-			</div>
-			<div>
-				<canvas width="400" height="400" ref="canvas"></canvas>
-			</div>
-			<div>difference: {{differencemeasure}}</div>
-		</div>
-	</template>
-	<template id="exampleTemplate">
-		<div ref="container"></div>
-<!--		<iframe src="exampleRunner.html" ref="iframe" class="example-iframe" width="600" height="250"></iframe>-->
-		
-	</template>
-	<div id="main">
-		<div class="option">
-			<span class="darklight" v-on:click="setDark" v-if="!dark">dark</span>
-			<span class="darklight" v-on:click="setLight" v-if="dark">light</span>
-		</div>
-		<div class="option"><a href="/sandbox.html">sandbox</a></div>
-		<div v-if="numberSkipped > 0" class="notification">{{numberSkipped}} examples were skipped</div>
-		<div v-if="unequalImages.length > 0" class="danger">
-			<div>Not all images appear to be equal. Please inspect:</div>
-			<ul>
-				<image-link v-for="titleAndIndex in unequalImages" v-bind:titleandindex="titleAndIndex"></image-link>
-			</ul>
-			
-		</div>
-		<div v-if="ignoredImages.length > 0" class="warning">
-			<div>Some differences were ignored. Click the name to see the reason</div>
-			<ul>
-				<image-link v-for="titleAndIndex in ignoredImages" v-bind:titleandindex="titleAndIndex"></image-link>
-			</ul>
-			
-		</div>
-		<example v-for="example in examples" v-bind:example="example" v-bind:dark="dark" v-on:imagesunequal="onImagesUnequal" v-on:ignored="onIgnored" v-on:viewdiff="onViewDiff"></example>
-		<diff-viewer v-bind:visible="viewDiff" v-on:close="onDiffViewerClose" v-bind:imagedata="diffImageData" v-bind:differencemeasure="differenceMeasure"></diff-viewer>
-	</div>
+	
+	
 	<script type="text/javascript">
 		(function(){
-			var canvasWidth = 400;
-			var canvasHeight = 400;
-			var createRandomImage = async function(){
-				var width = 300;
-				var height = 227;
-				var array = new Uint8ClampedArray(4 * width * height);
-				for(var i=0;i<height;i++){
-					for(var j=0;j<width;j++){
-						var index = 4 * width * i + 4 * j;
-						array[index] = Math.floor(Math.random() * 255);
-						array[index + 1] = Math.floor(Math.random() * 255);
-						array[index + 2] = Math.floor(Math.random() * 255);
-						array[index + 3] = Math.floor(Math.random() * 255);
+			var pacedCaller = (function(){
+				var callbacks = [];
+				var busy = false;
+				var callNext = function(){
+					busy = true;
+					if(callbacks.length === 0){
+						busy = false;
+						return;
 					}
-				}
-				var imageData = new ImageData(array, width);
-				return await createImageBitmap(imageData);
-			};
-			var imagePromise = createRandomImage();
-			var compareImages = function(imageData1, imageData2){
-				var newData = new Uint8ClampedArray(4 * canvasWidth * canvasHeight);
-				var currentIndex = 0;
-				var data1 = imageData1.data;
-				var data2 = imageData2.data;
-				var differenceMeasure = 0;
-				for(var r = 0; r < canvasHeight; r++){
-					for(var c = 0; c < canvasWidth; c++){
-						var rDif = data2[currentIndex] - data1[currentIndex];
-						var gDif = data2[currentIndex + 1] - data1[currentIndex + 1];
-						var bDif = data2[currentIndex + 2] - data1[currentIndex + 2];
-						var aDif = data2[currentIndex + 3] - data1[currentIndex + 3];
-						var redValue = 0;
-						if(rDif !== 0 || gDif !== 0 || bDif !== 0 || aDif !== 0){
-							redValue = rDif * rDif + gDif * gDif + bDif * bDif + aDif * aDif;
-							differenceMeasure += redValue;
-						}
-						newData[currentIndex] = redValue;
-						newData[currentIndex + 1] = 0;
-						newData[currentIndex + 2] = 0;
-						newData[currentIndex + 3] = 255;
-						currentIndex += 4;
+					var batch = callbacks.splice(0, 10);
+					for(var callback of batch){
+						callback();
 					}
-				}
-				return {
-					data: new ImageData(newData, canvasWidth),
-					differenceMeasure: differenceMeasure
+					setTimeout(callNext, 200);
 				};
-			};
-			var functionLinePattern = "([^\\r\\n]*?)([^\\s][^\\r\\n]*)";
-			function getLinesFromFunction(f){
-				var functionMatch = f.toString().match(/^\s*function\s*\([^)]*\)\s*\{([\w\W]*?)\}\s*$/);
-				var lines = functionMatch[1].match(new RegExp(functionLinePattern, "g"));
-				var lineRegExp = new RegExp("^" + functionLinePattern + "$");
-				var matchedLines = lines.map(function(l){return l.match(lineRegExp);});
-				var minIndentLength = Math.min.apply(null, matchedLines.map(function(l){return l[1].length;}));
-				return lines.map(function(l){return l.substring(minIndentLength);})
-			}
+				return {
+					addCall(callback){
+						callbacks.push(callback);
+						if(!busy){
+							callNext();
+						}
+					}
+				};
+			})();
+			
+			
+			
+			
 			var examples = [
 						{
 							code:function(ctx){
@@ -1244,113 +1172,25 @@
 							title: "drawing a line without calling 'moveTo'"
 						}
 					];
-			new Vue({
-				el:"#main",
-				data:function(){
-					var exaplesToShow = examples;
-					var numberSkipped = 0;
-					if(exaplesToShow.find(function(e){return e.focussed;})){
-						var filteredExamples = exaplesToShow.filter(function(e){return e.focussed;});
-						numberSkipped = exaplesToShow.length - filteredExamples.length;
-						exaplesToShow = filteredExamples;
-					}
-					var notExcludedExamples = exaplesToShow.filter(function(e){return !e.excluded;});
-					numberSkipped += exaplesToShow.length - notExcludedExamples.length;
-					exaplesToShow = notExcludedExamples;
-					exaplesToShow.forEach(function(e, i){e.index = i;})
-					return {
-						examples:exaplesToShow,
-						dark:false,
-						numberSkipped: numberSkipped,
-						unequalImages: [],
-						ignoredImages: [],
-						viewDiff: false,
-						diffImageData: undefined,
-						differenceMeasure: undefined
-					};
-				},
-				methods:{
-					onViewDiff:function(difference){
-						this.viewDiff = true;
-						this.diffImageData = difference.data;
-						this.differenceMeasure = difference.differenceMeasure;
-					},
-					onDiffViewerClose: function(){
-						this.viewDiff = false;
-					},
-					onImagesUnequal: function(titleAndIndex){
-						this.unequalImages.push(titleAndIndex);
-					},
-					onIgnored: function(titleAndIndex){
-						this.ignoredImages.push(titleAndIndex);
-					},
-					setDark:function(){
-						document.body.setAttribute("class","dark");
-						this.dark = true;
-						if(!localStorage.getItem("dark")){
-							localStorage.setItem("dark", true);
-						}
-					},
-					setLight:function(){
-						document.body.setAttribute("class","");
-						this.dark = false;
-						if(localStorage.getItem("dark")){
-							localStorage.removeItem("dark");
-						}
-					}
-				},
-				mounted:function(){
-					var searchParams = new URLSearchParams(window.location.search);
-					if(localStorage.getItem("dark")){
-						this.setDark();
-					}
-				},
-				components:{
-					'example':{
-						template: document.getElementById("exampleTemplate").innerHTML,
-						props:{
-							example: Object
-						},
-						mounted: function(){
+			examples = examples.slice(0, 10);
 
-							var iframe = document.createElement('iframe');
-							this.$refs.container.appendChild(iframe);
+			function runExample(example){
+				var iframe = document.createElement('iframe');
+				iframe.setAttribute('class', 'example-runner-iframe')
+				pacedCaller.addCall(() => {
+					document.body.appendChild(iframe)
+					iframe.setAttribute('src', 'exampleRunner.html');
+					console.log(`iframe created`)
+					iframe.addEventListener('load', () => {
+						console.log(`iframe loaded!`)
+						iframe.contentWindow.postMessage({code: example.code.toString(), finiteCode: example.finiteCode ? example.finiteCode.toString() : null}, "*")
+					})
+				})
+			}
 
-							iframe.setAttribute('width', 600);
-							iframe.setAttribute('height', 250);
-							iframe.setAttribute('class', 'example-iframe')
-							iframe.setAttribute('src', 'exampleRunner.html');
-							iframe.addEventListener('load', () => {
-								console.log(`iframe loaded!`)
-								iframe.contentWindow.postMessage({code: this.example.code.toString(), finiteCode: this.example.finiteCode ? this.example.finiteCode.toString() : null}, "*")
-							})
-
-						}
-					},
-					'image-link':{
-						template: document.getElementById("imageLinkTemplate").innerHTML,
-						props:{
-							titleandindex: Object
-						}
-					},
-					'diff-viewer': {
-						template: document.getElementById("diffViewerTemplate").innerHTML,
-						props:{
-							visible: Boolean,
-							imagedata: Object,
-							differencemeasure: Number
-						},
-						watch:{
-							imagedata:function(value){
-								if(!value){
-									return;
-								}
-								this.$refs.canvas.getContext("2d").putImageData(value, 0, 0);
-							}
-						}
-					}
-				}
-			});
+			for(var example of examples){
+				runExample(example);
+			}
 		})();
 		
 	</script>

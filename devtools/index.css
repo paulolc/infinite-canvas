@@ -86,6 +86,6 @@ body.dark{
 	padding: 5px;
 	margin-bottom: 5px;
 }
-.example-iframe{
-	border: none;
+.example-runner-iframe{
+	display: none;
 }

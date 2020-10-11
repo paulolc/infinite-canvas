@@ -23,6 +23,7 @@
 		<script type="text/javascript">
 			(function(){
 				onmessage = function(e){
+
 					var htmlCanvasElement = document.getElementById("html-canvas");
 					var htmlCanvasContext = htmlCanvasElement.getContext("2d");
 
@@ -42,6 +43,8 @@
 
 					htmlCanvasDrawFn(htmlCanvasContext);
 					infiniteCanvasDrawFn(infiniteCanvasContext);
+
+					e.source.postMessage('done', '*')
 				}
 			})()
 		</script>

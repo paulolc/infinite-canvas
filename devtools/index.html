@@ -10,7 +10,14 @@
 	
 	
 	<script type="text/javascript">
-		(function(){
+		(async function(){
+			var messageHandlers = [];
+			onmessage = function(e){
+				for(var handler of messageHandlers){
+					handler(e);
+				}
+			}
+
 			class RunExampleRequest{
 				constructor(example){
 					this.example = example;
@@ -29,32 +36,70 @@
 					this.currentRequest = undefined;
 				}
 				async ensureInitialized(){
-					if(this.iframeLoaded){
-						
-						return;
-					}
-					this.iframe = document.createElement('iframe');
-					iframe.setAttribute('class', 'example-runner-iframe')
-					document.body.appendChild(iframe);
 					var resolve;
 					var promise = new Promise((res) => resolve = res)
-					iframe.setAttribute('src', 'exampleRunner.html');
-					iframe.addEventListener('load', resolve);
-					await promise;
-					this.iframeLoaded = true;
+					if(this.iframeLoaded){
+						this.iframe.contentWindow.location.reload();
+						this.iframe.addEventListener('load', resolve);
+						await promise;
+					}else{
+						this.iframe = document.createElement('iframe');
+						this.iframe.addEventListener('load', resolve);
+						this.iframe.setAttribute('class', 'example-runner-iframe');
+						document.body.appendChild(this.iframe);
+						this.iframe.setAttribute('src', 'exampleRunner.html');
+						await promise;
+						this.iframeLoaded = true;
+						messageHandlers.push(e => {
+							if(e.source !== this.iframe.contentWindow){
+								return;
+							}
+							this.currentRequest.resolve(e.data);
+						})
+					}
 				}
 				async runExample(request){
 					this.busy = true;
+					this.currentRequest = request;
 					await this.ensureInitialized();
 					var example = request.example;
 					this.iframe.contentWindow.postMessage({
 						code: example.code.toString(),
 						finiteCode: example.finiteCode ? example.finiteCode.toString() : null
 					}, "*")
+					await request.promise;
+					this.busy = false;
 				}
 			}
 			
-			
+			class ExampleRunnerPool{
+				constructor(){
+					this.runners = Array.apply(null, new Array(4)).map(() => new ExampleRunner());
+					this.examplesToRun = [];
+				}
+				async runNext(){
+					if(this.examplesToRun.length === 0){
+						return;
+					}
+					var freeRunner = this.runners.find(r => !r.busy);
+					if(!freeRunner){
+						return;
+					}
+					var exampleToRun = this.examplesToRun.splice(0, 1)[0];
+					await freeRunner.runExample(exampleToRun);
+					this.runNext();
+				}
+				async runExample(example){
+					var request = new RunExampleRequest(example);
+					this.examplesToRun.push(request);
+					this.runNext();
+					var result = await request.promise;
+					console.log(`example run finished`);
+					return result;
+				}
+			}
+
+			var pool = new ExampleRunnerPool();
 			
 			var examples = [
 						{
@@ -1189,22 +1234,21 @@
 							title: "drawing a line without calling 'moveTo'"
 						}
 					];
-			examples = examples.slice(0, 2);
+			//examples = examples.slice(0, 4);
+			
+			var start = +new Date();
+			var results = await Promise.all(examples.map(e => pool.runExample(e)));
+			console.log(`results after ${new Date() - start} ms: `, results)
 
-			function runExample(example){
-				var iframe = document.createElement('iframe');
-				iframe.setAttribute('class', 'example-runner-iframe')
-				pacedCaller.addCall(() => {
-					document.body.appendChild(iframe)
-					iframe.setAttribute('src', 'exampleRunner.html');
-					console.log(`iframe created`)
-					iframe.addEventListener('load', () => {
-						console.log(`iframe loaded!`)
-						iframe.contentWindow.postMessage({code: example.code.toString(), finiteCode: example.finiteCode ? example.finiteCode.toString() : null}, "*")
-					})
-				})
-			}
 
+			// var request1 = new RunExampleRequest(examples[0]);
+			// runner.runExample(request1);
+			// var result1 = await request1.promise;
+			// console.log(`result1: `, result1)
+			// var request2 = new RunExampleRequest(examples[1]);
+			// runner.runExample(request2);
+			// var result2 = await request2.promise;
+			// console.log(`result2: `, result2)
 			// for(var example of examples){
 			// 	runExample(example);
 			// }

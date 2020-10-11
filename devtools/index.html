@@ -11,31 +11,34 @@
 	
 	<script type="text/javascript">
 		(function(){
-			var pacedCaller = (function(){
-				var callbacks = [];
-				var busy = false;
-				var callNext = function(){
-					busy = true;
-					if(callbacks.length === 0){
-						busy = false;
+			class RunExampleRequest{
+				constructor(example){
+					this.example = example;
+					this.promise = new Promise((res, rej) => {
+						this.resolve = res;
+						this.reject = rej;
+					});
+				}
+			}
+			
+			class ExampleRunner{
+				constructor(){
+					this.initialized = false;
+					this.iframe = undefined;
+				}
+				async ensureInitialized(){
+					if(this.initialized){
 						return;
 					}
-					var batch = callbacks.splice(0, 10);
-					for(var callback of batch){
-						callback();
-					}
-					setTimeout(callNext, 200);
-				};
-				return {
-					addCall(callback){
-						callbacks.push(callback);
-						if(!busy){
-							callNext();
-						}
-					}
-				};
-			})();
-			
+					this.iframe = document.createElement('iframe');
+					document.body.appendChild(iframe);
+					var resolve;
+					var promise = new Promise((res) => resolve = res)
+					iframe.setAttribute('src', 'exampleRunner.html');
+					iframe.addEventListener('load', resolve);
+					return promise;
+				}
+			}
 			
 			
 			
@@ -1188,9 +1191,9 @@
 				})
 			}
 
-			for(var example of examples){
-				runExample(example);
-			}
+			// for(var example of examples){
+			// 	runExample(example);
+			// }
 		})();
 		
 	</script>

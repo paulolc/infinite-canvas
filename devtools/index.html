@@ -23,20 +23,34 @@
 			
 			class ExampleRunner{
 				constructor(){
-					this.initialized = false;
+					this.iframeLoaded = false;
 					this.iframe = undefined;
+					this.busy = false;
+					this.currentRequest = undefined;
 				}
 				async ensureInitialized(){
-					if(this.initialized){
+					if(this.iframeLoaded){
+						
 						return;
 					}
 					this.iframe = document.createElement('iframe');
+					iframe.setAttribute('class', 'example-runner-iframe')
 					document.body.appendChild(iframe);
 					var resolve;
 					var promise = new Promise((res) => resolve = res)
 					iframe.setAttribute('src', 'exampleRunner.html');
 					iframe.addEventListener('load', resolve);
-					return promise;
+					await promise;
+					this.iframeLoaded = true;
+				}
+				async runExample(request){
+					this.busy = true;
+					await this.ensureInitialized();
+					var example = request.example;
+					this.iframe.contentWindow.postMessage({
+						code: example.code.toString(),
+						finiteCode: example.finiteCode ? example.finiteCode.toString() : null
+					}, "*")
 				}
 			}
 			
@@ -1175,7 +1189,7 @@
 							title: "drawing a line without calling 'moveTo'"
 						}
 					];
-			examples = examples.slice(0, 10);
+			examples = examples.slice(0, 2);
 
 			function runExample(example){
 				var iframe = document.createElement('iframe');

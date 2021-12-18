@@ -11,6 +11,12 @@ module.exports = function(destination, excludeInfiniteCanvas){
             fileNames: ['index.html', 'index.css', 'canvas.html', 'canvas.css', 'dock-bottom.svg', 'dock-right.svg']
         },
         {
+          type: 'copyFiles',
+          source: path.resolve(__dirname, '..'),
+          destination: destination,
+          fileNames: ['logo.svg']
+        },
+        {
             type: 'buildScripts',
             source: __dirname,
             destination: destination,

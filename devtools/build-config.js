@@ -119,6 +119,12 @@ module.exports = function(){
                         fileNames: ['rhino.jpg']
                     },
                     {
+                      type: 'copyFiles',
+                      source: path.resolve(__dirname, '..'),
+                      destination: tempDir,
+                      fileNames:['logo.svg']
+                    },
+                    {
                         type: 'webpack',
                         config: () => infiniteCanvasWebpackConfig
                     },

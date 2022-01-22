@@ -38,7 +38,14 @@ export class InfiniteCanvas implements InfiniteCanvasDeclaration{
 			Object.assign(this.config, config)
 		}
 		this.canvasResizeObserver = new HtmlCanvasResizeObserver(canvas);
+
 		this.canvasResizeListener = () => {
+			
+			
+			console.log("Infinite Canvas RESIZING!!")
+
+
+
 			if(this.canvas.parentElement === null){
 				return;
 			}

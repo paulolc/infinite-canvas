@@ -8,6 +8,9 @@ const tempPlaygroundDir = path.join(tempDir,'playground');
 const infiniteCanvasWebpackConfig = require('../infinite-canvas-webpack-config')(tempDir, false);
 const playgroundConfig = require('../playground/build-config')(tempPlaygroundDir, true);
 
+const tempTimeflowDir = path.join(tempDir,'timeflow');
+const timeflowConfig = require('../timeflow/build-config')(tempTimeflowDir, true);
+
 function createTestCasesScript(){
     if(!fs.existsSync(tempDir)){
         fs.mkdirSync(tempDir);
@@ -122,7 +125,8 @@ module.exports = function(){
                         type: 'webpack',
                         config: () => infiniteCanvasWebpackConfig
                     },
-                    playgroundConfig
+                    playgroundConfig,
+                    timeflowConfig
                 ]
             },
             {

@@ -1,0 +1,41 @@
+body {
+  margin: 0px;
+  padding:0px;
+  overflow:hidden;
+  border:0px;
+  background-color: #444444;
+}
+
+#container {
+  width: 100%; 
+  height: 1000px; 
+  position:relative; 
+  margin:0px; 
+  padding:0px; 
+  border:0px 
+}
+
+#scale { 
+  height: 100px; 
+  z-index:10;
+  pointer-events: none;
+}
+
+canvas { 
+  height: 400px; 
+}
+
+#scale, canvas {
+  width: 100%;
+  margin:0px; 
+  padding:0px; 
+  border:0px ;
+  position:absolute;
+  top: 0;
+  left:0;
+  
+}
+
+html, body {
+    overflow: hidden;
+}

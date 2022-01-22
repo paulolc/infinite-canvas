@@ -94,8 +94,10 @@ export class Transformation{
 		return new Transformation(scale, 0, 0, scale, 0, 0);
 	}
 	public static identity: Transformation = new Transformation(1,0,0,1,0,0);
-	public static zoom(centerX: number, centerY: number, scale: number, translateX?: number, translateY?: number): Transformation{
+	public static zoom(centerX: number, centerY: number, scale: number, translateX?: number, translateY?: number): Transformation{		
 		const oneMinScale: number = 1 - scale;
+
+
 		if(translateX !== undefined){
 			return new Transformation(scale, 0, 0, scale, centerX * oneMinScale + translateX, centerY * oneMinScale + translateY);
 		}

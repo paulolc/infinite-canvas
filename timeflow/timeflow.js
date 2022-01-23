@@ -1,3 +1,22 @@
+const STARTYEAR = 1970;
+const UNITSPERTICK = 30;
+const STARTY = 200
+const IMGINITMARKERPADDING = 2;
+const MARKERHEIGHT = 10;
+const IMGTXTPADDING = 5;
+const SPACEBETWEENTXTLINES = 2;
+const CHARWIDTH = 7;
+const CHARHEIGHT = 14;
+const MAXCARDHEIGHT = 175;
+const MAXY =MAXCARDHEIGHT*7
+const TICKHEIGHT_1 = 3;
+const TICKHEIGHT_2 = 5;
+const TICKHEIGHT_3 = 7;
+const TICKHEIGHT_4 = 15;
+
+
+
+
 window.onload = function()
 {
   
@@ -7,8 +26,7 @@ window.onload = function()
 }
 
 
-const STARTYEAR = 1970;
-const UNITSPERTICK = 30;
+
 
 function xByYear( year ){
   return (  year - STARTYEAR ) * UNITSPERTICK;
@@ -29,9 +47,14 @@ function loadImage( imgurl, cb){
 }
 
 
-function redrawScaleCanvas(data, scalecanvas, offset,zoom){
+function redrawScaleCanvas(data, scalecanvas, gridcanvas, offset,zoom){
   const stx = scalecanvas.getContext("2d"); 
+  const gtx = gridcanvas.getContext("2d");
   stx.clearRect(0, 0, scalecanvas.width, scalecanvas.height);
+  gtx.clearRect(0, 0, gridcanvas.width, gridcanvas.height);
+
+  gtx.lineWidth = 1;
+
 
   stx.fillStyle = "white";
   stx.strokeStyle = "#BBBBBB";
@@ -42,26 +65,32 @@ function redrawScaleCanvas(data, scalecanvas, offset,zoom){
   stx.lineTo(scalecanvas.width,0);
 
 
-  const startN = 10;
-  const TICKHEIGHT_1 = 3;
-  const TICKHEIGHT_2 = 5;
-  const TICKHEIGHT_3 = 7;
-  const TICKHEIGHT_4 = 15;
-
-  let n = startN;
-
-
   const ticksize = UNITSPERTICK*zoom;
   const startpixel = offset % ticksize;  
-  const TICKOFFSET = offset / ticksize;  
 
-  //console.log(`TICKSIZE: ${ticksize}, offset/TICKSIZE: ${offset/ticksize}`);
 
   let x=startpixel;
   let year;
 
   for( let k = startpixel ; x < scalecanvas.width + startpixel ; k++ ){
     year = STARTYEAR + Math.round( ( x - offset ) / ticksize );
+    
+
+    // ===== Grid Line =====
+    if( year%10 === 0 ) {
+      gtx.strokeStyle = "#666666";
+    } else {
+      gtx.strokeStyle = "#555555";
+    }
+
+    gtx.beginPath();
+    gtx.moveTo(x + 0.5 ,0);
+    gtx.lineTo(x + 0.5 , gridcanvas.height );
+    gtx.closePath();
+    gtx.stroke();
+    // ===================
+
+
     stx.moveTo(x + 0.5 ,0);
     stx.lineTo(x + 0.5 , (year%10 === 0 ? TICKHEIGHT_4 : TICKHEIGHT_3) );
     stx.font = '12px sans-serif';
@@ -78,50 +107,34 @@ function redrawScaleCanvas(data, scalecanvas, offset,zoom){
 
 }
 
-
-
 function initializeCanvas(data){
 
   const scalecanvas =  document.getElementById("scale");
   const scalerect = scalecanvas.getBoundingClientRect();
+  const gridcanvas =  document.getElementById("grid");
+  const gridrect = gridcanvas.getBoundingClientRect();
+  gridcanvas.width = gridrect.width;
+  gridcanvas.height = gridrect.height;
+  
   scalecanvas.width = scalerect.width;
   scalecanvas.height = scalerect.height;
 
+  const gtx = gridcanvas.getContext("2d");  
   const stx = scalecanvas.getContext("2d");
-  redrawScaleCanvas(data, scalecanvas,0);
 
-
-
+  redrawScaleCanvas(data, scalecanvas,gridcanvas,0);
 
   const canvasElement = document.getElementById("timeline");
   const rect = canvasElement.getBoundingClientRect();
   canvasElement.width = rect.width;
   canvasElement.height = rect.height;
 
-
   const canvas = new InfiniteCanvas(canvasElement);
   let t;
   canvas.addEventListener('draw', () => {
     t = canvas.rectangle.coordinateSystems.screen.infiniteCanvasContextBase;
-    redrawScaleCanvas(data,scalecanvas,t.e,t.a);
-
-
-    //console.log( [t.a,t.b,t.c,t.d,t.e,t.f] );
-    //console.log(canvas.rectangle.coordinateSystems.screen.inverseBase);
-    //console.log(canvas.rectangle.coordinateSystems.screen.infiniteCanvasContextBase);
-    //console.log(canvas.rectangle.coordinateSystems.screen.inverseInfiniteCanvasContextBase);
-    //console.log(canvas.viewBox);
+    redrawScaleCanvas(data,scalecanvas,gridcanvas,t.e,t.a);
   });
-
-
-  const STARTY = 100
-  const IMGINITMARKERPADDING = 2;
-  const MARKERHEIGHT = 10;
-  const IMGTXTPADDING = 5;
-  const SPACEBETWEENTXTLINES = 2;
-  const CHARWIDTH = 7;
-  const CHARHEIGHT = 14;
-  const MAXCARDHEIGHT = 175;
 
   //This triggers the redraw on horizonal resizing and avoids image "squishing"
   canvas.setUnits(InfiniteCanvas.CSS_UNITS);
@@ -167,13 +180,10 @@ function initializeCanvas(data){
 
     const minY = currY + yIncrement;
     const maxY = minY + 10;
-
-    //const width = maxX-minX;
-    //const height = maxY-minY;
     
     currY = maxY + 10;
     
-    
+   
     const imgwidth = 100;
     let imageHeight = 0;
     loadImage( record.image, img =>{
@@ -182,13 +192,12 @@ function initializeCanvas(data){
       ctx.beginPath();
       ctx.moveTo(minX, minY+MARKERHEIGHT);
       //ctx.lineToInfinityInDirection(0,-1);
-      ctx.lineTo(minX, minY-imageHeight);//minY-imageHeight);
+      ctx.lineTo(minX, minY-imageHeight);
       ctx.closePath();
       ctx.stroke();
       
 
     });
-
 
     ctx.beginPath();
     ctx.moveTo(minX, minY );
@@ -199,8 +208,6 @@ function initializeCanvas(data){
     ctx.lineTo(minX, maxY);
     ctx.fill();
     ctx.closePath();
-
-
 
     let maxtextwidth = 0;
     const nlines = record.description.length +1;
@@ -219,8 +226,6 @@ function initializeCanvas(data){
     maxRightMostX = ( maxRightMostX > rightMostX ? maxRightMostX : rightMostX );
     //DEBUG: ctx.strokeRect(minX,minY+MARKERHEIGHT, rightMostX - minX, - 75 );
     
-
-
     if( rightMostX > maxX ) {
       let yIncrement = MAXCARDHEIGHT;
       if( currY - MARKERHEIGHT >= STARTY && minX > maxRightMostX ){
@@ -230,9 +235,9 @@ function initializeCanvas(data){
     } else {
       currY=minY;
     }    
-    currY = currY > MAXCARDHEIGHT*7 ? STARTY : currY;
+    currY = currY > MAXY ? STARTY : currY;
     
-    
+
     
     lastMaxX = maxX;
 

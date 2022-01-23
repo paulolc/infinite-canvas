@@ -17,7 +17,7 @@ body {
 
 #scale { 
   height: 100px; 
-  z-index:10;
+  z-index:100;
   pointer-events: none;
 }
 
@@ -33,8 +33,23 @@ canvas {
   position:absolute;
   top: 0;
   left:0;
+  z-index:50;
   
 }
+
+#grid, canvas {
+  width: 100%;
+  margin:0px; 
+  padding:0px; 
+  border:0px ;
+  position:absolute;
+  top: 0;
+  left:0;
+  z-index:10;
+  
+}
+
+
 
 html, body {
     overflow: hidden;

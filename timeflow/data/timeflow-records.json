@@ -1,0 +1,535 @@
+[
+    {
+        "start": 1139,
+        "end": 1185,
+        "image": "140px-Afonso_I_Henriques.jpg",
+        "description": [
+            "Afonso I",
+            "O Conquistador",
+            "O Fundador"
+        ]
+    },
+    {
+        "start": 1185,
+        "end": 1211,
+        "image": "140px-D._Sancho_I.jpg",
+        "description": [
+            "Sancho I",
+            "O Povoador",
+            ""
+        ]
+    },
+    {
+        "start": 1211,
+        "end": 1223,
+        "image": "140px-AfonsoII.jpg",
+        "description": [
+            "Afonso II",
+            "O Gordo",
+            "O Gafo"
+        ]
+    },
+    {
+        "start": 1223,
+        "end": 1247,
+        "image": "140px-D._Sancho_II_%281718%29_-_Henrique_Ferreira.png",
+        "description": [
+            "Sancho II",
+            "O Capelo",
+            ""
+        ]
+    },
+    {
+        "start": 1248,
+        "end": 1279,
+        "image": "140px-Afonso_III.jpg",
+        "description": [
+            "Afonso III",
+            "O Bolonhês",
+            ""
+        ]
+    },
+    {
+        "start": 1279,
+        "end": 1325,
+        "image": "140px-D._Dinis_%28Quinta_da_Regaleira%29.png",
+        "description": [
+            "Dinis I",
+            "O Lavrador",
+            " O Trovador"
+        ]
+    },
+    {
+        "start": 1325,
+        "end": 1357,
+        "image": "140px-D._Afonso_IV_%281718%29_-_Henrique_Ferreira.png",
+        "description": [
+            "Afonso IV",
+            "O Bravo",
+            ""
+        ]
+    },
+    {
+        "start": 1357,
+        "end": 1367,
+        "image": "140px-D._Pedro_I_de_Portugal.png",
+        "description": [
+            "Pedro I",
+            "O Justiceiro",
+            " O Cruel"
+        ]
+    },
+    {
+        "start": 1367,
+        "end": 1383,
+        "image": "140px-Portrait_of_King_Fernando_I%2C_Belem_Collection.JPG",
+        "description": [
+            "Fernando I",
+            "O Formoso",
+            " O Inconstante"
+        ]
+    },
+
+    {
+        "start": 1385,
+        "end": 1433,
+        "image": "Anoniem_-_Koning_Johan_I_van_Portugal_%281450-1500%29_-_Lissabon_Museu_Nacional_de_Arte_Antiga_19-10-2010_16-12-61.jpg",
+        "description": [
+            "João I",
+            "O de Boa Memória",
+            ""
+        ]
+    },
+    {
+        "start": 1433,
+        "end": 1438,
+        "image": "Illuminated_Portrayel_of_King_Duarte_I_of_Portugal%2C_Rui_de_Pina.PNG",
+        "description": [
+            "Duarte I",
+            "O Eloquente",
+            ""
+        ]
+    },
+    {
+        "start": 1438,
+        "end": 1481,
+        "image": "Afonso_V.jpg",
+        "description": [
+            "Afonso V",
+            "O Africano",
+            ""
+        ]
+    },
+    {
+        "start": 1481,
+        "end": 1495,
+        "image": "Dom_Joao_II_de_Portugal.jpg",
+        "description": [
+            "João II",
+            "O Príncipe Perfeito",
+            ""
+        ]
+    },
+    {
+        "start": 1495,
+        "end": 1521,
+        "image": "140px-Manuel_I.jpg",
+        "description": [
+            "Manuel I",
+            "O Venturoso",
+            ""
+        ]
+    },
+    {
+        "start": 1521,
+        "end": 1557,
+        "image": "D._Jo%C3%A3o_III_-_Crist%C3%B3v%C3%A3o_Lopes_%28attrib%29.png",
+        "description": [
+            "João III",
+            "O Piedoso",
+            ""
+        ]
+    },
+    {
+        "start": 1557,
+        "end": 1578,
+        "image": "Sebasti%C3%A3o_de_Portugal%2C_c._1571-1574_-_Crist%C3%B3v%C3%A3o_de_Morais.png",
+        "description": [
+            "Sebastião I",
+            "O Desejado",
+            ""
+        ]
+    },
+    {
+        "start": 1578,
+        "end": 1580,
+        "image": "140px-Cardeal_D._Henrique%2C_c%C3%B3pia_de_original_de_c._1590.jpg",
+        "description": [
+            "Henrique I",
+            "O Casto",
+            ""
+        ]
+    },
+
+    {
+        "start": 1581,
+        "end": 1598,
+        "image": "214px-Philip_II.jpg",
+        "description": [
+            "Filipe I",
+            "",
+            ""
+        ]
+    },
+    {
+        "start": 1598,
+        "end": 1621,
+        "image": "276px-Philip_III_of_Spain.jpg",
+        "description": [
+            "Filipe II",
+            "",
+            ""
+        ]
+    },
+    {
+        "start": 1621,
+        "end": 1640,
+        "image": "Philip_IV_King_of_Spain.jpg",
+        "description": [
+            "Filipe III",
+            "",
+            ""
+        ]
+    },
+
+    {
+        "start": 1640,
+        "end": 1656,
+        "image": "140px-Portrait_of_King_John_IV_%281643%29_-_Jos%C3%A9_de_Avelar_Rebelo.png",
+        "description": [
+            "João IV",
+            "O Restaurador",
+            ""
+        ]
+    },
+    {
+        "start": 1656,
+        "end": 1683,
+        "image": "AfonsoVIpt.jpg",
+        "description": [
+            "Afonso VI",
+            "O Vitorioso",
+            ""
+        ]
+    },
+    {
+        "start": 1683,
+        "end": 1706,
+        "image": "D._Pedro_II%2C_Rei_de_Portugal.JPG",
+        "description": [
+            "Pedro II",
+            "O Pacífico",
+            ""
+        ]
+    },
+    {
+        "start": 1706,
+        "end": 1750,
+        "image": "John_V_of_Portugal_Pompeo_Batoni.jpg",
+        "description": [
+            "João V",
+            "O Magnânimo",
+            ""
+        ]
+    },
+    {
+        "start": 1750,
+        "end": 1777,
+        "image": "Portrait_of_Joseph_Emanuel%2C_King_of_Portugal_%281773%29_-_Miguel_Ant%C3%B3nio_do_Amaral.png",
+        "description": [
+            "José I",
+            "O Reformador",
+            ""
+        ]
+    },
+    {
+        "start": 1777,
+        "end": 1786,
+        "image": "Retrato_de_D._Pedro_III_de_Portugal_-_oficina_europeia_ou_portuguesa_do_s%C3%A9culo_XVIII.png",
+        "description": [
+            "Pedro III",
+            "O Edificador",
+            ""
+        ]
+    },
+    {
+        "start": 1777,
+        "end": 1816,
+        "image": "Maria_I%2C_Queen_of_Portugal_-_Giuseppe_Troni%2C_atribu%C3%ADdo_%28Turim%2C_1739-Lisboa%2C_1810%29_-_Google_Cultural_Institute.jpg",
+        "description": [
+            "Maria I",
+            "A Piedosa",
+            "A Louca"
+        ]
+    },
+    {
+        "start": 1816,
+        "end": 1826,
+        "image": "Retrato_de_D._Jo%C3%A3o_VI%2C_Rei_de_Portugal.jpg",
+        "description": [
+            "João VI",
+            "O Clemente",
+            ""
+        ]
+    },
+    {
+        "start": 1826,
+        "end": 1826,
+        "image": "140px-DpedroI-brasil-full.jpg",
+        "description": [
+            "Pedro IV",
+            "O Rei-Soldado",
+            "O Libertador"
+        ]
+    },
+    {
+        "start": 1826,
+        "end": 1834,
+        "image": "140px-Miguel_-_Jo%C3%A3o_Baptista_Ribeiro_%281790_-_1868%29.jpg",
+        "description": [
+            "Miguel I",
+            "O Rei-Absoluto",
+            ""
+        ]
+    },
+    {
+        "start": 1834,
+        "end": 1853,
+        "image": "D._Maria_II_Rainha.jpg",
+        "description": [
+            "Maria II",
+            "A Educadora",
+            ""
+        ]
+    },
+    {
+        "start": 1837,
+        "end": 1853,
+        "image": "D._Fernando_II-F._Krumholz-1845.JPG",
+        "description": [
+            "Fernando II",
+            "O Rei-Artista",
+            ""
+        ]
+    },
+    {
+        "start": 1853,
+        "end": 1861,
+        "image": "140px-Don_Pedro_V.jpg",
+        "description": [
+            "Pedro V",
+            "O Esperançoso",
+            ""
+        ]
+    },
+    {
+        "start": 1861,
+        "end": 1889,
+        "image": "140px-D_Luis.jpg",
+        "description": [
+            "Luís I",
+            "O Popular",
+            ""
+        ]
+    },
+    {
+        "start": 1889,
+        "end": 1908,
+        "image": "Carlos_I_of_Portugal_by_Jos%C3%A9_Malhoa.jpg",
+        "description": [
+            "Carlos I",
+            "O Diplomata",
+            "O Martirizado"
+        ]
+    },
+    {
+        "start": 1911,
+        "end": 1915,
+        "description": [
+            "Manuel de Arriaga",
+            "1º Presidente da República"
+        ],
+        "image": "Manuel_de_Arriaga_-_Fotografia_Vasques.png"
+    },
+    {
+        "start": 1915,
+        "end": 1915,
+        "description": [
+            "Teófilo Braga",
+            "2º Presidente da República"
+        ],
+        "image": "Te%C3%B3filo_Braga_-_Ilustra%C3%A7%C3%A3o_Portugueza_%287JUN1915%29.png"
+    },
+    {
+        "start": 1915,
+        "end": 1917,
+        "description": [
+            "Bernardino Machado",
+            "3º Presidente da República"
+        ],
+        "image": "BernardinoMachado.png"
+    },
+    {
+        "start": 1917,
+        "end": 1918,
+        "description": [
+            "Sidónio Pais",
+            "4º Presidente da República"
+        ],
+        "image": "Sid%C3%B3nio_Pais%2C_phot._Bobone.png"
+    },
+    {
+        "start": 1918,
+        "end": 1919,
+        "description": [
+            "João do Canto e Castro",
+            "5º Presidente da República"
+        ],
+        "image": "144px-Jo%C3%A3o_de_Canto_e_Castro_da_Silva_Antunes_%28Arquivo_Hist%C3%B3rico_Parlamentar%29.png"
+    },
+    {
+        "start": 1919,
+        "end": 1923,
+        "description": [
+            "António José de Almeida",
+            "6º Presidente da República"
+        ],
+        "image": "Ant%C3%B3nio_Jos%C3%A9_de_Almeida%2C_1919.png"
+    },
+    {
+        "start": 1923,
+        "end": 1925,
+        "description": [
+            "Manuel Teixeira Gomes",
+            "7º Presidente da República"
+        ],
+        "image": "Manuel_Teixeira_Gomes.png"
+    },
+    {
+        "start": 1925,
+        "end": 1926,
+        "description": [
+            "Bernardino Machado",
+            "8º Presidente da República"
+        ],
+        "image": "BernardinoMachado.png"
+    },
+    {
+        "start": 1926,
+        "end": 1926,
+        "description": [
+            "José Mendes Cabeçadas",
+            "9º Presidente da República"
+        ],
+        "image": "Jos%C3%A9_Mendes_Cabe%C3%A7adas_Junior.png"
+    },
+    {
+        "start": 1926,
+        "end": 1926,
+        "description": [
+            "Manuel Gomes da Costa",
+            "10º Presidente da República"
+        ],
+        "image": "Gomes_da_costa.jpg"
+    },
+    {
+        "start": 1926,
+        "end": 1951,
+        "description": [
+            "Óscar Carmona",
+            "11º Presidente da República"
+        ],
+        "image": "143px-Carmona.jpg"
+    },
+    {
+        "start": 1951,
+        "end": 1958,
+        "description": [
+            "Francisco Craveiro Lopes",
+            "12º Presidente da República"
+        ],
+        "image": "Francisco_Higino_Craveiro_Lopes.jpg"
+    },
+    {
+        "start": 1958,
+        "end": 1974,
+        "description": [
+            "Américo Tomás",
+            "13º Presidente da República"
+        ],
+        "image": "AmericoThomaz.png"
+    },
+    {
+        "start": 1974,
+        "end": 1974,
+        "description": [
+            "António de Spínola",
+            "14º Presidente da República"
+        ],
+        "image": "Ant%C3%B3nio_de_Sp%C3%ADnola_%281974%29.png"
+    },
+    {
+        "start": 1974,
+        "end": 1976,
+        "description": [
+            "Francisco da Costa Gomes",
+            "15º Presidente da República"
+        ],
+        "image": "Francisco_da_Costa_Gomes.gif"
+    },
+    {
+        "start": 1976,
+        "end": 1986,
+        "description": [
+            "António Ramalho Eanes",
+            "16º Presidente da República"
+        ],
+        "image": "Ant%C3%B3nio_Ramalho_Eanes.png"
+    },
+    {
+        "start": 1986,
+        "end": 1996,
+        "description": [
+            "Mário Soares",
+            "17º Presidente da República"
+        ],
+        "image": "M%C3%A1rio_Soares.png"
+    },
+    {
+        "start": 1996,
+        "end": 2006,
+        "description": [
+            "Jorge Sampaio",
+            "18º Presidente da República"
+        ],
+        "image": "Fotografia_oficial_do_Presidente_Jorge_Sampaio.jpg"
+    },
+    {
+        "start": 2006,
+        "end": 2016,
+        "description": [
+            "Aníbal Cavaco Silva",
+            "19º Presidente da República"
+        ],
+        "image": "An%C3%ADbal_Cavaco_Silva_%28cropped%29.jpg"
+    },
+    {
+        "start": 2016,
+        "end": 2026,
+        "description": [
+            "Marcelo Rebelo de Sousa",
+            "20º Presidente da República"
+        ],
+        "image": "Marcelo_Rebelo_de_Sousa_em_fevereiro_de_2018.jpg"
+    }
+]

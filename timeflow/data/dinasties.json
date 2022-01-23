@@ -1,0 +1,41 @@
+{
+    "Dinasties": [
+        {
+            "start": 1640,
+            "end": 1910,
+            "image": "250px-Royal_Coat_of_Arms_of_Portugal_with_Mantle.svg.png",
+            "description": [
+                "Dinastia de Bragança",
+                "",
+                ""
+            ]
+        },{
+            "start": 1581,
+            "end": 1640,
+            "image": "250px-Full_Ornamented_Coat_of_Arms_of_Spanish_House_of_Austria_%281580-1668%29.svg.png",
+            "description": [
+                "Dinastia de Habsburgo (ou Filipina)",
+                "",
+                ""
+            ]
+        },{
+            "start": 1383,
+            "end": 1580,
+            "image": "350px-Brasao_de_Aviz.PNG",
+            "description": [
+                "Dinastia de Avis",
+                "",
+                ""
+            ]
+        },{
+            "start": 1139,
+            "end": 1383,
+            "image": "",
+            "description": [
+                "Dinastia Fernandina",
+                "",
+                ""
+            ]
+        }
+    ]
+}
